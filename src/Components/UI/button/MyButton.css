@@ -1,0 +1,13 @@
+.myButton {
+    padding: 5px 15px;
+    color: red;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.submited {
+    color: black;
+    font-weight: bolder;
+    border: 3px solid rgb(255, 0, 0);
+}
