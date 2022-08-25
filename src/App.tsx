@@ -30,16 +30,22 @@ function App() {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const lastElement = useRef<HTMLDivElement>(null);
-  let observer: IntersectionObserver;
+  const observer = useRef<IntersectionObserver>();
+  console.log(lastElement.current);
 
-  console.log(lastElement);
+  useEffect(() => {
+    return () => {
+      if (posts.length && !observer.current) {
+        const callback = function () {
+          console.log('visible');
+        };
+        observer.current = new IntersectionObserver(callback);
+        if (!!lastElement.current)
+          observer.current.observe(lastElement.current);
+      }
+    }
+  }, [posts]);
 
-  const callback = function () {
-    console.log('visible');
-  };
-  observer = new IntersectionObserver(callback);
-  if (null !== lastElement.current)
-    observer.observe(lastElement.current);
 
 
   const fetchPosts = async () => {
@@ -117,7 +123,7 @@ function App() {
         {isPostLoading ?
           <h1>LOADING...</h1>
           : <PostList
-            ref={lastElement}
+            lastElementRef={lastElement}
             posts={sortedAndFindedPosts}
             title={'List'} />
         }
